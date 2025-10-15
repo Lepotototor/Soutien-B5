@@ -2,8 +2,8 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Wvla -Werror -g -fsanitize=address
 LDFLAGS=-fsanitize=address
 
-SRC=main.c array_even.c merge_blocks.c get_childs.c str_to_upper.c resize_tab.c
-OBJ=$(SRC:.c=.o)
+SRC=src/main.c src/array_even.c src/merge_blocks.c src/get_childs.c src/str_to_upper.c src/resize_tab.c
+OBJ=main.o array_even.o merge_blocks.o get_childs.o str_to_upper.o resize_tab.o
 BIN=dragons
 
 all: CPPFLAGS = -DMERGE_BLOCKS -DARRAY_EVEN -DGET_CHILDS -DSTR_TO_UPPER -DRESIZE_TAB
