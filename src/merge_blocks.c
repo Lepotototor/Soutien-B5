@@ -5,6 +5,11 @@
 
 void *merge_blocks(void *b1, size_t s1, void *b2, size_t s2)
 {
+    if (b1 == NULL)
+        return b2;
+    else if (b2 == NULL)
+        return b1;
+
     void *block = malloc(s1 + s2);
     if (block == NULL)
         return NULL;

@@ -132,25 +132,27 @@ void test_resize_tab()
         puts("Tab is freed");
 }
 
+#ifndef DEBUG
 int main(void)
 {
-#ifdef MERGE_BLOCKS
+#    ifdef MERGE_BLOCKS
     test_merge_blocks();
-#endif
+#    endif
 
-#ifdef GET_CHILDS
+#    ifdef GET_CHILDS
     test_get_childs();
-#endif
+#    endif
 
-#ifdef ARRAY_EVEN
+#    ifdef ARRAY_EVEN
     test_array_even();
-#endif
+#    endif
 
-#ifdef STR_TO_UPPER
+#    ifdef STR_TO_UPPER
     test_str_to_upper();
-#endif
+#    endif
 
-#ifdef RESIZE_TAB
+#    ifdef RESIZE_TAB
     test_resize_tab();
-#endif
+#    endif
 }
+#endif

@@ -6,11 +6,15 @@ SRC=src/main.c src/array_even.c src/merge_blocks.c src/get_childs.c src/str_to_u
 OBJ=main.o array_even.o merge_blocks.o get_childs.o str_to_upper.o resize_tab.o
 BIN=dragons
 
+TESTSUITE_SRC = tests/testsuite_merge_blocks.c
+TESTSUITE_OBJ = testsuite_merge_blocks.o
+TESTSUITE_BIN = testsuite
+
 all: CPPFLAGS = -DMERGE_BLOCKS -DARRAY_EVEN -DGET_CHILDS -DSTR_TO_UPPER -DRESIZE_TAB
 all: $(BIN)
 
 $(BIN): $(OBJ)
-	$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@
+	$(CC) $(LDFLAGS) $(LDLIBS) $(OBJ) -o $@
 
 $(OBJ): $(SRC)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $^
@@ -36,5 +40,15 @@ resize_tab: $(BIN)
 	./$(BIN)
 
 
+testsuite: CPPFLAGS += -DDEBUG
+testsuite: LDLIBS += -lcriterion
+testsuite: $(TESTSUITE_BIN)
+
+$(TESTSUITE_BIN): $(OBJ) $(TESTSUITE_OBJ)
+	$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@
+
+$(TESTSUITE_OBJ): $(TESTSUITE_SRC)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -c $^
+
 clean:
-	$(RM) $(OBJ) $(BIN)
+	$(RM) $(OBJ) $(BIN) $(TESTSUITE_OBJ) $(TESTSUITE_BIN)
