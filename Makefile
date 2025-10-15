@@ -5,8 +5,8 @@ SRC=src/main.c src/array_even.c src/merge_blocks.c src/get_childs.c src/str_to_u
 OBJ=main.o array_even.o merge_blocks.o get_childs.o str_to_upper.o resize_tab.o
 BIN=dragons
 
-TESTSUITE_SRC = tests/testsuite_merge_blocks.c tests/testsuite_get_childs.c tests/testsuite_array_even.c tests/testsuite_str_to_upper.c
-TESTSUITE_OBJ = testsuite_merge_blocks.o testsuite_get_childs.o testsuite_array_even.o testsuite_str_to_upper.o
+TESTSUITE_SRC = tests/testsuite_merge_blocks.c tests/testsuite_get_childs.c tests/testsuite_array_even.c tests/testsuite_str_to_upper.c tests/testsuite_resize_tab.c
+TESTSUITE_OBJ = testsuite_merge_blocks.o testsuite_get_childs.o testsuite_array_even.o testsuite_str_to_upper.o testsuite_resize_tab.o
 TESTSUITE_BIN = dragons_testsuite
 
 all: CFLAGS +=  -g -fsanitize=address
@@ -41,6 +41,12 @@ resize_tab: $(BIN)
 	./$(BIN)
 
 
+intra: CPPFLAGS += -DDEBUG
+intra: LDLIBS += -lcriterion
+intra: $(TESTSUITE_BIN)
+	./$(TESTSUITE_BIN) --xml=trace.xml
+	python tests/xml_to_pacv2.py trace.xml trace.xml
+
 check: CPPFLAGS += -DDEBUG
 check: LDLIBS += -lcriterion
 check: $(TESTSUITE_BIN)
@@ -53,4 +59,4 @@ $(TESTSUITE_OBJ): $(TESTSUITE_SRC)
 	$(CC) $(CPPFLAGS) $(CFLAGS) -c $^
 
 clean:
-	$(RM) $(OBJ) $(BIN) $(TESTSUITE_OBJ) $(TESTSUITE_BIN)
+	$(RM) $(OBJ) $(BIN) $(TESTSUITE_OBJ) $(TESTSUITE_BIN) trace.xml
