@@ -154,5 +154,15 @@ int main(void)
 #    ifdef RESIZE_TAB
     test_resize_tab();
 #    endif
+
+
+
+/*
+
+
+            You can add tests in the main function here
+
+
+  */
 }
 #endif

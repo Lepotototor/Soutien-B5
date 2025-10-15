@@ -23,6 +23,9 @@ char to_upper(char c)
 
 char *str_to_upper(const char *s)
 {
+    if (s == NULL)
+        return NULL;
+
     size_t len = my_strlen(s);
     int fd[2];
     if (pipe(fd) == -1)

@@ -13,18 +13,20 @@ Test(merge_blocks, basic_test1, .timeout = 5)
     char result[] = "Who is the end ? \tI'm here";
     char *got = merge_blocks(str1, strlen(str1), str2, strlen(str2) + 1);
 
-    cr_expect(eq(str, result, got));
+    cr_expect(eq(str, result, got), "Expected: \"%s\"\nGot: \"%s\"", result,
+              got);
     free(got);
 }
 
 Test(merge_blocks, basic_test2, .timeout = 5)
 {
-    char str1[] = "Who is the beste BDE ?";
+    char str1[] = "Who is the best BDE ?";
     char str2[] = " It's Pycolo of course";
-    char result[] = "Who is the beste BDE ? It's Pycolo of course";
+    char result[] = "Who is the best BDE ? It's Pycolo of course";
     char *got = merge_blocks(str1, strlen(str1), str2, strlen(str2) + 1);
 
-    cr_expect(eq(str, result, got));
+    cr_expect(eq(str, result, got), "Expected: \"%s\"\nGot: \"%s\"", result,
+              got);
     free(got);
 }
 
@@ -35,7 +37,8 @@ Test(merge_blocks, basic_test3, .timeout = 5)
     char result[] = "My fav things is evalexpr";
     char *got = merge_blocks(str1, strlen(str1), str2, strlen(str2) + 1);
 
-    cr_expect(eq(str, result, got));
+    cr_expect(eq(str, result, got), "Expected: \"%s\"\nGot: \"%s\"", result,
+              got);
     free(got);
 }
 
@@ -46,7 +49,8 @@ Test(merge_blocks, basic_test4, .timeout = 5)
     char result[] = "Wyatt is the most beautiful";
     char *got = merge_blocks(str1, strlen(str1), str2, strlen(str2) + 1);
 
-    cr_expect(eq(str, result, got));
+    cr_expect(eq(str, result, got), "Expected: \"%s\"\nGot: \"%s\"", result,
+              got);
     free(got);
 }
 
@@ -73,7 +77,8 @@ Test(merge_blocks, empty_test, .timeout = 5)
     char result[] = "";
     char *got = merge_blocks(str1, strlen(str1), str2, strlen(str2) + 1);
 
-    cr_expect(eq(str, result, got));
+    cr_expect(eq(str, result, got), "Expected: \"%s\"\nGot: \"%s\"", result,
+              got);
     free(got);
 }
 
@@ -86,8 +91,8 @@ Test(merge_blocks, null_test, .timeout = 5)
     cr_expect(eq(ptr, null, got));
 
     got = merge_blocks(str, strlen(str) + 1, null, 0);
-    cr_expect(eq(ptr, str, got));
+    cr_expect(eq(ptr, str, got), "Return pointer should be the same");
 
     got = merge_blocks(null, 0, str, strlen(str) + 1);
-    cr_expect(eq(ptr, str, got));
+    cr_expect(eq(ptr, str, got), "Return pointer should be the same");
 }
