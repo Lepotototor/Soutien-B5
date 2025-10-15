@@ -10,6 +10,9 @@
 
 int *get_childs(size_t n)
 {
+    if (n == 0)
+        return NULL;
+
     int *tab = calloc(n, sizeof(int));
     if (tab == NULL)
         return NULL;

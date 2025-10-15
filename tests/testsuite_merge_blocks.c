@@ -6,7 +6,7 @@
 
 TestSuite(merge_blocks);
 
-Test(merge_blocks, basic_test)
+Test(merge_blocks, basic_test1, .timeout = 5)
 {
     char str1[] = "Who is the end ? ";
     char str2[] = "\tI'm here";
@@ -17,7 +17,40 @@ Test(merge_blocks, basic_test)
     free(got);
 }
 
-Test(merge_blocks, int_test)
+Test(merge_blocks, basic_test2, .timeout = 5)
+{
+    char str1[] = "Who is the beste BDE ?";
+    char str2[] = " It's Pycolo of course";
+    char result[] = "Who is the beste BDE ? It's Pycolo of course";
+    char *got = merge_blocks(str1, strlen(str1), str2, strlen(str2) + 1);
+
+    cr_expect(eq(str, result, got));
+    free(got);
+}
+
+Test(merge_blocks, basic_test3, .timeout = 5)
+{
+    char str1[] = "My fav things is ";
+    char str2[] = "evalexpr";
+    char result[] = "My fav things is evalexpr";
+    char *got = merge_blocks(str1, strlen(str1), str2, strlen(str2) + 1);
+
+    cr_expect(eq(str, result, got));
+    free(got);
+}
+
+Test(merge_blocks, basic_test4, .timeout = 5)
+{
+    char str1[] = "Wyatt is ";
+    char str2[] = "the most beautiful";
+    char result[] = "Wyatt is the most beautiful";
+    char *got = merge_blocks(str1, strlen(str1), str2, strlen(str2) + 1);
+
+    cr_expect(eq(str, result, got));
+    free(got);
+}
+
+Test(merge_blocks, int_test, .timeout = 5)
 {
     int tab1[] = { 41, 42, 43, 44, 45 };
     int tab2[] = { 8, 9, 45 };
@@ -33,7 +66,7 @@ Test(merge_blocks, int_test)
     free(got);
 }
 
-Test(merge_blocks, empty_test)
+Test(merge_blocks, empty_test, .timeout = 5)
 {
     char str1[] = "";
     char str2[] = "";
@@ -44,7 +77,7 @@ Test(merge_blocks, empty_test)
     free(got);
 }
 
-Test(merge_blocks, null_test)
+Test(merge_blocks, null_test, .timeout = 5)
 {
     char str[] = "I'm alone";
     char *null = NULL;

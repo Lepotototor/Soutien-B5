@@ -1,15 +1,16 @@
 CC=gcc
-CFLAGS=-Wall -Wextra -Wvla -Werror -g -fsanitize=address
-LDFLAGS=-fsanitize=address
+CFLAGS=-Wall -Wextra -Wvla -Werror
 
 SRC=src/main.c src/array_even.c src/merge_blocks.c src/get_childs.c src/str_to_upper.c src/resize_tab.c
 OBJ=main.o array_even.o merge_blocks.o get_childs.o str_to_upper.o resize_tab.o
 BIN=dragons
 
-TESTSUITE_SRC = tests/testsuite_merge_blocks.c
-TESTSUITE_OBJ = testsuite_merge_blocks.o
-TESTSUITE_BIN = testsuite
+TESTSUITE_SRC = tests/testsuite_merge_blocks.c tests/testsuite_get_childs.c tests/testsuite_array_even.c
+TESTSUITE_OBJ = testsuite_merge_blocks.o testsuite_get_childs.o testsuite_array_even.o
+TESTSUITE_BIN = dragons_testsuite
 
+all: CFLAGS +=  -g -fsanitize=address
+all: LDFLAGS +=  -g -fsanitize=address
 all: CPPFLAGS = -DMERGE_BLOCKS -DARRAY_EVEN -DGET_CHILDS -DSTR_TO_UPPER -DRESIZE_TAB
 all: $(BIN)
 
@@ -40,9 +41,10 @@ resize_tab: $(BIN)
 	./$(BIN)
 
 
-testsuite: CPPFLAGS += -DDEBUG
-testsuite: LDLIBS += -lcriterion
-testsuite: $(TESTSUITE_BIN)
+check: CPPFLAGS += -DDEBUG
+check: LDLIBS += -lcriterion
+check: $(TESTSUITE_BIN)
+	./$(TESTSUITE_BIN)
 
 $(TESTSUITE_BIN): $(OBJ) $(TESTSUITE_OBJ)
 	$(CC) $(LDFLAGS) $(LDLIBS) $^ -o $@

@@ -1,7 +1,6 @@
 *.o
 *.a
 *.out
-dragons
 *.pdf
 *.txt
 *.tar*
@@ -13,3 +12,5 @@ dragons
 *.gz
 *.xz
 *.xml
+dragons
+dragons_testsuite
