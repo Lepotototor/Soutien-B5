@@ -1,0 +1,15 @@
+*.o
+*.a
+*.out
+dragons
+*.pdf
+*.txt
+*.tar*
+*.swp
+*.png
+*.svg
+*.csv
+*.dot
+*.gz
+*.xz
+
