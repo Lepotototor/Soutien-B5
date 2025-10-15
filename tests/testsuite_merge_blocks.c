@@ -1,4 +1,5 @@
 #include <criterion/criterion.h>
+#include <criterion/internal/assert.h>
 #include <criterion/new/assert.h>
 #include <stdio.h>
 
@@ -91,8 +92,8 @@ Test(merge_blocks, null_test, .timeout = 5)
     cr_expect(eq(ptr, null, got));
 
     got = merge_blocks(str, strlen(str) + 1, null, 0);
-    cr_expect(eq(ptr, str, got), "Return pointer should be the same");
+    cr_expect_str_eq(str, got, "Expected: \"%s\"\nGot: \"%s\"", str, got);
 
     got = merge_blocks(null, 0, str, strlen(str) + 1);
-    cr_expect(eq(ptr, str, got), "Return pointer should be the same");
+    cr_expect_str_eq(str, got, "Expected: \"%s\"\nGot: \"%s\"", str, got);
 }
