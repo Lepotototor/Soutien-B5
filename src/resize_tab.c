@@ -4,7 +4,9 @@
 
 struct tab *resize_tab(struct tab *tab, size_t new_size)
 {
-    if (new_size >= tab->size)
+    if (tab == NULL)
+        return NULL;
+    else if (new_size >= tab->size)
         return tab;
     else if (new_size == 0)
     {

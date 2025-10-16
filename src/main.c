@@ -155,14 +155,12 @@ int main(void)
     test_resize_tab();
 #    endif
 
+    /*
 
 
-/*
+                You can add tests in the main function here
 
 
-            You can add tests in the main function here
-
-
-  */
+      */
 }
 #endif

@@ -6,87 +6,106 @@
 
 TestSuite(resize_tab);
 
+struct tab *init_tab(int *arr, size_t size)
+{
+    struct tab *tab = malloc(sizeof(struct tab));
+    tab->size = size;
+    tab->data = calloc(tab->size, sizeof(int));
+
+    for (size_t i = 0; i < size; i++)
+        tab->data[i] = arr[i];
+
+    return tab;
+}
+
 Test(resize_tab, basic_test1, .timeout = 5)
 {
     int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-    int expected[] = { 2, 4, 6, 8, 10 };
-    int *res = NULL;
-    size_t size = resize_tab(arr, 10, &res);
+    struct tab *tab = init_tab(arr, sizeof(arr) / sizeof(int));
 
-    cr_expect_eq(5, size, "Expected size %i, got %zu", 5, size);
-    cr_expect_arr_eq(expected, res, 5, "Returned array is not good");
+    int expected[] = { 1, 2, 3, 4, 5 };
+    resize_tab(tab, 5);
 
-    free(res);
+    cr_expect_eq(5, tab->size, "Expected size %i, got %zu", 5, tab->size);
+    cr_expect_arr_eq(expected, tab->data, 5, "Returned array is not good");
+
+    free(tab->data);
+    free(tab);
 }
 
 Test(resize_tab, basic_test2, .timeout = 5)
 {
-    int arr[] = { 6, 42, 69, 13, 12, 4, 0 };
-    int expected[] = { 6, 42, 12, 4, 0 };
-    int *res = NULL;
-    size_t size = resize_tab(arr, 7, &res);
+    int arr[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 12, 34, 1, 2,
+                  8, 6, 3, 5, 7, 9, 3, 4, 5, 1, 2, 4,  5,  7, 8 };
+    struct tab *tab = init_tab(arr, sizeof(arr) / sizeof(int));
 
-    cr_expect_eq(5, size, "Expected size %i, got %zu", 5, size);
-    cr_expect_arr_eq(expected, res, 5, "Returned array is not good");
+    int expected[] = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    resize_tab(tab, 10);
 
-    free(res);
+    cr_expect_eq(10, tab->size, "Expected size %i, got %zu", 10, tab->size);
+    cr_expect_arr_eq(expected, tab->data, 10, "Returned array is not good");
+
+    free(tab->data);
+    free(tab);
 }
 
-Test(resize_tab, basic_test3, .timeout = 5)
+Test(resize_tab, size_zero, .timeout = 5)
 {
-    int arr[] = { 7, 9, 13, 4, 6, 1, 10, 43, 69 };
-    int expected[] = { 4, 6, 10 };
-    int *res = NULL;
-    size_t size = resize_tab(arr, 9, &res);
+    int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    struct tab *tab = init_tab(arr, sizeof(arr) / sizeof(int));
 
-    cr_expect_eq(3, size, "Expected size %i, got %zu", 3, size);
-    cr_expect_arr_eq(expected, res, 3, "Returned array is not good");
+    struct tab *res = resize_tab(tab, 0);
 
-    free(res);
+    cr_expect_eq(NULL, res, "Expected NULL");
 }
 
-Test(resize_tab, only_even, .timeout = 5)
+Test(resize_tab, same_size, .timeout = 5)
 {
-    int arr[] = { 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 42, 420 };
-    size_t s = sizeof(arr) / sizeof(int);
-    int *res = NULL;
-    size_t size = resize_tab(arr, s, &res);
+    int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    struct tab *tab = init_tab(arr, sizeof(arr) / sizeof(int));
 
-    cr_expect_eq(s, size, "Expected size %zu, got %zu", s, size);
-    cr_expect_arr_eq(arr, res, s, "Returned array is not good");
+    resize_tab(tab, tab->size);
 
-    free(res);
+    cr_expect_eq(tab->size, tab->size, "Expected size %zu, got %zu", tab->size,
+                 tab->size);
+    cr_expect_arr_eq(arr, tab->data, tab->size, "Returned array is not good");
+
+    free(tab->data);
+    free(tab);
 }
 
-Test(resize_tab, no_even, .timeout = 5)
+Test(resize_tab, greater_size, .timeout = 5)
 {
-    int arr[] = { 1, 3, 5, 7, 9, 11, 13, 21, 43, 57, 99 };
-    size_t s = sizeof(arr) / sizeof(int);
-    int *res = NULL;
-    size_t size = resize_tab(arr, s, &res);
+    int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+    struct tab *tab = init_tab(arr, sizeof(arr) / sizeof(int));
 
-    cr_expect_eq(0, size, "Expected size %i, got %zu", 0, size);
-    cr_expect_eq(NULL, res, "Returned array is not good, it should be NULL");
+    resize_tab(tab, tab->size + 42);
 
-    free(res);
+    cr_expect_eq(tab->size, tab->size, "Expected size %zu, got %zu", tab->size,
+                 tab->size);
+    cr_expect_arr_eq(arr, tab->data, tab->size, "Returned array is not good");
+
+    free(tab->data);
+    free(tab);
 }
-
 Test(resize_tab, empty_test, .timeout = 5)
 {
-    int arr[] = { 1, 2, 3, 4, 5 };
-    int *res = NULL;
-    size_t size = resize_tab(arr, 0, &res);
+    struct tab *tab = malloc(sizeof(struct tab));
+    tab->data = NULL;
+    tab->size = 0;
+    resize_tab(tab, 0);
 
-    cr_expect_eq(0, size, "Expected size 0, got %zu", size);
-    cr_expect_eq(NULL, res, "Expected NULL got an array");
+    cr_expect_eq(0, tab->size, "Expected size 0, got %zu", tab->size);
+    cr_expect_eq(NULL, tab->data, "Expected NULL got an array");
+
+    free(tab);
 }
 
 Test(resize_tab, null_test, .timeout = 5)
 {
-    int *null = NULL;
-    int *res = NULL;
-    size_t size = resize_tab(null, 0, &res);
+    struct tab *null = NULL;
+    struct tab *res = NULL;
+    res = resize_tab(null, 0);
 
-    cr_expect_eq(0, size, "Expected size 0, got %zu", size);
     cr_expect_eq(NULL, res, "Expected NULL got an array");
 }
