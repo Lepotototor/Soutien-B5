@@ -19,13 +19,18 @@ You can compile all exercises with:
 Feel free to add tests in the main
 
 
+
 Also you can compile and run given test function with following command:
 `make clean <func_name>`
 
 `make clean str_to_upper`
+
 `make clean array_even`
+
 `make clean get_childs`
+
 `make clean merge_blocks`
+
 `make clean resize_tab`
 
 
@@ -34,7 +39,9 @@ A testsuite is provided, you can run it with the following command:
 
 
 For the intra lovers you can do 
+
 `make clean intra`
+
 It will generate an xml file that you can upload in the intranet to see
 the results like the moulinette should display them
 
